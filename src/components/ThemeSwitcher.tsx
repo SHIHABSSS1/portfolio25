@@ -11,6 +11,9 @@ export default function ThemeSwitcher() {
     // Mark as mounted to avoid hydration issues
     setMounted(true);
     
+    // Force dark mode by default (this is important)
+    document.documentElement.classList.add("dark");
+    
     // Check for theme preference in localStorage
     const savedTheme = localStorage.getItem("theme");
     
@@ -48,10 +51,10 @@ export default function ThemeSwitcher() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none transition-colors"
+      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-yellow-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none transition-colors"
       aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {darkMode ? <FaSun size={20} /> : <FaMoon size={20} />}
+      {darkMode ? <FaSun size={20} className="text-yellow-400" /> : <FaMoon size={20} className="text-blue-500" />}
     </button>
   );
 } 
