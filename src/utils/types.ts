@@ -20,27 +20,23 @@ export type AboutData = {
   title: string;
   tagline: string;
   bio: string;
-  image: string; // Base64 or URL
-  carouselImages: string[]; // Array of image URLs or base64 strings
-  experience: {
-    title: string;
-    company: string;
-    description: string;
-  }[];
+  image: string;
+  experience: number;
+  location: string;
+  nationality: string;
+  education: string;
+  languages: string;
+  interests: string[];
 };
 
 export type ContactInfo = {
   email: string;
   phone: string;
-  whatsapp: string;
-  address: {
-    present: string;
-    permanent: string;
-  };
+  location: string;
   socialLinks: {
-    facebook: string;
     github: string;
     linkedin: string;
     twitter: string;
+    facebook: string;
   };
 }; 

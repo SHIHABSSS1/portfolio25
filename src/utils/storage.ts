@@ -12,7 +12,7 @@ const defaultProjects: Project[] = [
     title: "CSV Search Tool",
     description: "A user-friendly tool for searching through CSV files with clean UI, efficient search logic, and smooth user interaction.",
     tags: ["React", "Node.js", "CSV Parsing", "UI/UX"],
-    image: "/images/project1.jpg",
+    image: "",
     github: "https://github.com/",
     demo: "https://example.com/",
   },
@@ -21,7 +21,7 @@ const defaultProjects: Project[] = [
     title: "IoT Home Automation",
     description: "Smart home system built with ESP8266/ESP32 and Blynk platform for real-time monitoring and control of home appliances.",
     tags: ["Arduino", "ESP8266", "IoT", "Blynk"],
-    image: "/images/project2.jpg",
+    image: "",
     github: "https://github.com/",
     demo: "https://example.com/",
   },
@@ -30,7 +30,7 @@ const defaultProjects: Project[] = [
     title: "Digital Subscription Platform",
     description: "Subscription management system for digital products like Canva and Netflix, including user management and payment processing.",
     tags: ["Web Development", "E-commerce", "Payment Gateway"],
-    image: "/images/project3.jpg",
+    image: "",
     github: "https://github.com/",
     demo: "https://example.com/",
   },
@@ -113,40 +113,18 @@ const defaultAbout: AboutData = {
   tagline: "I'm a passionate engineer with expertise in embedded systems, web development, and digital marketing, creating solutions that deliver real-world impact.",
   bio: "I'm a passionate Electronics Engineer with a diverse background in embedded systems, web development, digital marketing, and IT service. I thrive on learning, building, and leading, with a strong focus on practical innovation and real-world impact.",
   image: "",
-  carouselImages: [
-    "https://source.unsplash.com/random/1200x800?tech",
-    "https://source.unsplash.com/random/1200x800?coding",
-    "https://source.unsplash.com/random/1200x800?electronics",
-    "https://source.unsplash.com/random/1200x800?web",
-    "https://source.unsplash.com/random/1200x800?engineering"
-  ],
-  experience: [
-    {
-      title: "Customer Support",
-      company: "Genex (Grameenphone Digital)",
-      description: "Handling live chat and email-based customer support, gaining hands-on experience in communication, customer service, and IT operations."
-    },
-    {
-      title: "Founder",
-      company: "Mirro Tech",
-      description: "Led projects involving digital subscription products like Canva and Netflix, sharpening my skills in client handling, digital product delivery, and team coordination."
-    },
-    {
-      title: "Brand Promoter",
-      company: "Samiha Air International, Dream Abroad",
-      description: "Collaborated with well-known brands to help them grow their digital identity and market reach."
-    }
-  ]
+  experience: 7,
+  location: "Dhaka, Bangladesh",
+  nationality: "Bangladeshi",
+  education: "BSc in Electronics & Communication Engineering, BUBT",
+  languages: "Bengali (Native), English (Fluent)",
+  interests: ["IoT", "Web Development", "Electronics", "Digital Marketing", "UI/UX Design"]
 };
 
 const defaultContactInfo: ContactInfo = {
   email: "shihabhossain596@gmail.com",
   phone: "+8801745368299",
-  whatsapp: "+8801745368299",
-  address: {
-    present: "Nikunja 2, Khilkhet, Dhaka, Bangladesh",
-    permanent: "Kichak, Shibganj, Bogura, Bangladesh"
-  },
+  location: "Nikunja 2, Khilkhet, Dhaka, Bangladesh",
   socialLinks: {
     facebook: "https://web.facebook.com/mdshihabhossain0",
     github: "https://github.com/",

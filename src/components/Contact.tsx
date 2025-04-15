@@ -2,255 +2,225 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { useContactInfo } from "@/utils/storage";
 
 export default function Contact() {
   const { contactInfo } = useContactInfo();
-  
-  const [formData, setFormData] = useState({
+  const [formState, setFormState] = useState({
     name: "",
     email: "",
-    subject: "",
     message: "",
   });
-  
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormState((prev) => ({ ...prev, [name]: value }));
   };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission - replace with actual form handling logic
+    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
-      setSubmitSuccess(true);
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      setSubmitted(true);
+      setFormState({ name: "", email: "", message: "" });
       
       // Reset success message after 5 seconds
-      setTimeout(() => {
-        setSubmitSuccess(false);
-      }, 5000);
+      setTimeout(() => setSubmitted(false), 5000);
     }, 1500);
   };
-  
+
   return (
-    <section id="contact" className="py-24 bg-gray-50 dark:bg-gray-800/50">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section id="contact" className="py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-6 lg:px-8">
         <motion.div 
-          className="mx-auto max-w-2xl text-center"
+          className="max-w-3xl mx-auto text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold mb-4 sm:text-4xl bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
             Get In Touch
           </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-400">
-            Let's connect and discuss how we can work together on your next project
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Have a project in mind or want to collaborate? Feel free to reach out!
           </p>
         </motion.div>
-        
-        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2">
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8"
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6 }}
           >
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-              Contact Information
-            </h3>
+            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Send me a message</h3>
             
-            <div className="space-y-8">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                  <FaEnvelope className="h-5 w-5" />
-                </div>
+            {submitted ? (
+              <motion.div 
+                className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-6 text-center"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <svg className="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Message Sent!</h4>
+                <p className="text-gray-600 dark:text-gray-300">Thank you for reaching out. I'll get back to you soon!</p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <h4 className="text-base font-medium text-gray-900 dark:text-white">
-                    Email
-                  </h4>
-                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    <a 
-                      href={`mailto:${contactInfo.email}`} 
-                      className="hover:text-blue-600 dark:hover:text-blue-400"
-                    >
-                      {contactInfo.email}
-                    </a>
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                  <FaPhoneAlt className="h-4 w-4" />
-                </div>
-                <div>
-                  <h4 className="text-base font-medium text-gray-900 dark:text-white">
-                    Phone
-                  </h4>
-                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    <a 
-                      href={`tel:${contactInfo.phone}`} 
-                      className="hover:text-blue-600 dark:hover:text-blue-400"
-                    >
-                      {contactInfo.phone}
-                    </a>
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                  <FaWhatsapp className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="text-base font-medium text-gray-900 dark:text-white">
-                    WhatsApp
-                  </h4>
-                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    <a 
-                      href={`https://wa.me/${contactInfo.whatsapp.replace(/\+/g, '')}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-blue-600 dark:hover:text-blue-400"
-                    >
-                      {contactInfo.whatsapp}
-                    </a>
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                  <FaMapMarkerAlt className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="text-base font-medium text-gray-900 dark:text-white">
-                    Location
-                  </h4>
-                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    <span>Present: {contactInfo.address.present}</span><br/>
-                    <span>Permanent: {contactInfo.address.permanent}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-10">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                Connect with me
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Looking for a dedicated developer to bring your ideas to life? I'm currently available for freelance work and exciting project collaborations.
-              </p>
-            </div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-900 dark:text-white">
-                  Name
-                </label>
-                <div className="mt-1">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Your Name
+                  </label>
                   <input
                     type="text"
-                    name="name"
                     id="name"
-                    value={formData.name}
+                    name="name"
+                    value={formState.name}
                     onChange={handleChange}
                     required
-                    className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm py-3 px-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    placeholder="John Doe"
                   />
                 </div>
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-900 dark:text-white">
-                  Email
-                </label>
-                <div className="mt-1">
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Email Address
+                  </label>
                   <input
                     type="email"
-                    name="email"
                     id="email"
-                    value={formData.email}
+                    name="email"
+                    value={formState.email}
                     onChange={handleChange}
                     required
-                    className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm py-3 px-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    placeholder="john@example.com"
                   />
                 </div>
-              </div>
-              
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-900 dark:text-white">
-                  Subject
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="subject"
-                    id="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm py-3 px-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-900 dark:text-white">
-                  Message
-                </label>
-                <div className="mt-1">
+                
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Your Message
+                  </label>
                   <textarea
-                    name="message"
                     id="message"
-                    rows={4}
-                    value={formData.message}
+                    name="message"
+                    value={formState.message}
                     onChange={handleChange}
                     required
-                    className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm py-3 px-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500"
-                  />
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    placeholder="Hello, I'd like to discuss a project..."
+                  ></textarea>
                 </div>
-              </div>
-              
-              <div>
+                
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full transition-colors ${
-                    isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-                  }`}
+                  className={`w-full py-3 px-6 text-white font-medium rounded-lg shadow-md transition-all focus:outline-none 
+                    ${isSubmitting 
+                      ? 'bg-blue-400 cursor-not-allowed' 
+                      : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg transform hover:-translate-y-0.5'}
+                  `}
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
-              </div>
+              </form>
+            )}
+          </motion.div>
+          
+          {/* Contact Info */}
+          <motion.div
+            className="space-y-8"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Contact Information</h3>
               
-              {submitSuccess && (
-                <div className="rounded-md bg-green-50 dark:bg-green-900/30 p-4">
-                  <div className="flex">
-                    <div>
-                      <p className="text-sm font-medium text-green-800 dark:text-green-300">
-                        Thank you! Your message has been sent successfully.
-                      </p>
-                    </div>
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 mr-4">
+                    <FaEnvelope className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Email</h4>
+                    <a href={`mailto:${contactInfo.email}`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                      {contactInfo.email}
+                    </a>
                   </div>
                 </div>
-              )}
-            </form>
+                
+                <div className="flex items-start">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 mr-4">
+                    <FaPhone className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Phone</h4>
+                    <a href={`tel:${contactInfo.phone}`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                      {contactInfo.phone}
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 mr-4">
+                    <FaMapMarkerAlt className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Location</h4>
+                    <p className="text-gray-600 dark:text-gray-300">{contactInfo.location}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Follow Me</h3>
+              
+              <div className="grid grid-cols-3 gap-4">
+                <a 
+                  href={contactInfo.socialLinks.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                >
+                  <FaGithub className="h-8 w-8 text-gray-700 dark:text-gray-300 mb-2" />
+                  <span className="text-sm text-gray-600 dark:text-gray-400">GitHub</span>
+                </a>
+                
+                <a 
+                  href={contactInfo.socialLinks.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                >
+                  <FaLinkedin className="h-8 w-8 text-gray-700 dark:text-gray-300 mb-2" />
+                  <span className="text-sm text-gray-600 dark:text-gray-400">LinkedIn</span>
+                </a>
+                
+                <a 
+                  href={contactInfo.socialLinks.twitter} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                >
+                  <FaTwitter className="h-8 w-8 text-gray-700 dark:text-gray-300 mb-2" />
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Twitter</span>
+                </a>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

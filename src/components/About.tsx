@@ -1,123 +1,144 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useAbout } from "@/utils/storage";
-import ImageCarousel from "./ImageCarousel";
+import { FiUser, FiCalendar, FiMapPin, FiFlag, FiBookOpen, FiAward } from "react-icons/fi";
 
 export default function About() {
   const { about } = useAbout();
 
   return (
-    <section id="about" className="py-24 bg-white dark:bg-gray-900/50">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section id="about" className="py-24 bg-gray-50 dark:bg-gray-800">
+      <div className="container mx-auto px-6 lg:px-8">
         <motion.div 
-          className="mx-auto max-w-2xl text-center"
+          className="max-w-3xl mx-auto text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold mb-4 sm:text-4xl bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
             About Me
           </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-400">
-            My journey through technology, innovation, and leadership
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Get to know my background, experience, and what drives me as a professional
           </p>
         </motion.div>
         
-        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
-          <motion.div 
-            className="lg:order-last lg:pr-8"
-            initial={{ opacity: 0, x: 50 }}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Image and Details */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6 }}
           >
-            <div className="relative h-96 overflow-hidden rounded-2xl shadow-xl">
+            <div className="relative h-96 lg:h-[450px] overflow-hidden rounded-xl bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center shadow-lg">
               {about.image ? (
-                <img
-                  src={about.image}
-                  alt={about.name}
-                  className="h-full w-full object-cover"
+                <Image 
+                  src={about.image} 
+                  alt={about.name} 
+                  fill 
+                  className="object-cover"
                 />
               ) : (
-                <div className="h-full w-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
-                  {about.name}
+                <div className="text-8xl text-gray-400 dark:text-gray-600">
+                  <FiUser />
                 </div>
               )}
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-2xl"></div>
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-2xl"></div>
+              
+              {/* Name overlay */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                <h3 className="text-2xl font-bold text-white">{about.name}</h3>
+                <p className="text-gray-200">{about.title}</p>
+              </div>
+            </div>
+            
+            {/* Quick stats */}
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="bg-white dark:bg-gray-700 p-4 rounded-xl shadow-md">
+                <div className="flex items-center mb-2">
+                  <FiCalendar className="text-blue-600 dark:text-blue-400 mr-2" />
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-white">Experience</h4>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">{about.experience} years</p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-700 p-4 rounded-xl shadow-md">
+                <div className="flex items-center mb-2">
+                  <FiMapPin className="text-blue-600 dark:text-blue-400 mr-2" />
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-white">Location</h4>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">{about.location}</p>
+              </div>
             </div>
           </motion.div>
           
+          {/* Bio and Details */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            className="space-y-8"
+            initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="flex flex-col gap-6 text-base leading-7 text-gray-700 dark:text-gray-300">
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                My Story
-              </h3>
-              <p>
+            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Biography</h3>
+              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
                 {about.bio}
               </p>
-              
-              <div>
-                <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Professional Experience
-                </h4>
-                <ul className="mt-4 space-y-4">
-                  {about.experience.map((exp, index) => (
-                    <li key={index} className="flex gap-x-3">
-                      <div className="flex-none w-1.5 h-1.5 mt-2 rounded-full bg-blue-500" />
-                      <p>
-                        <span className="font-semibold text-gray-900 dark:text-white">{exp.title}</span> at{' '}
-                        <span className="font-semibold text-gray-900 dark:text-white">{exp.company}</span>
-                        {exp.description && `, ${exp.description}`}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white dark:bg-gray-700 p-5 rounded-xl shadow-md flex items-start">
+                <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 mr-4">
+                  <FiFlag className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Nationality</h4>
+                  <p className="text-gray-700 dark:text-gray-300">{about.nationality}</p>
+                </div>
               </div>
               
-              <div>
-                <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Technical Skills
-                </h4>
-                <ul className="mt-4 space-y-4">
-                  <li className="flex gap-x-3">
-                    <div className="flex-none w-1.5 h-1.5 mt-2 rounded-full bg-blue-500" />
-                    <p><span className="font-semibold text-gray-900 dark:text-white">Web Development:</span> Built full-stack applications with a clear separation between frontend and backend for better structure and scalability, including a CSV search tool with clean UI and efficient search logic.</p>
-                  </li>
-                  <li className="flex gap-x-3">
-                    <div className="flex-none w-1.5 h-1.5 mt-2 rounded-full bg-blue-500" />
-                    <p><span className="font-semibold text-gray-900 dark:text-white">Hardware & IoT:</span> Built IoT-based systems using Arduino, ESP8266/ESP32, and platforms like Blynk, bringing real-time data and control to everyday applications.</p>
-                  </li>
-                </ul>
+              <div className="bg-white dark:bg-gray-700 p-5 rounded-xl shadow-md flex items-start">
+                <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 mr-4">
+                  <FiBookOpen className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Education</h4>
+                  <p className="text-gray-700 dark:text-gray-300">{about.education}</p>
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-700 p-5 rounded-xl shadow-md flex items-start">
+                <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 mr-4">
+                  <FiAward className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Languages</h4>
+                  <p className="text-gray-700 dark:text-gray-300">{about.languages}</p>
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-700 p-5 rounded-xl shadow-md">
+                <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Interests</h4>
+                <div className="flex flex-wrap gap-2">
+                  {about.interests.map((interest, index) => (
+                    <span 
+                      key={index}
+                      className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm"
+                    >
+                      {interest}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
-
-        {/* Photo Carousel Section */}
-        {about.carouselImages && about.carouselImages.length > 0 && (
-          <motion.div 
-            className="mt-24"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <div className="text-center mb-8">
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                Photo Gallery
-              </h3>
-              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-                A glimpse into my journey and experiences
-              </p>
-            </div>
-            <ImageCarousel 
-              images={about.carouselImages} 
-              className="mx-auto max-w-4xl" 
-            />
-          </motion.div>
-        )}
       </div>
     </section>
   );
