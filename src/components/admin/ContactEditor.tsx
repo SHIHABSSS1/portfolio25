@@ -18,13 +18,16 @@ export default function ContactEditor() {
 
     if (section && field) {
       // Handle nested fields like address or socialLinks
-      setEditingContact((prev) => ({
-        ...prev,
-        [section]: {
-          ...prev[section as keyof ContactInfo],
-          [field]: value,
-        },
-      }));
+      setEditingContact((prev) => {
+        const sectionObj = prev[section as keyof typeof prev] as Record<string, string>;
+        return {
+          ...prev,
+          [section]: {
+            ...sectionObj,
+            [field]: value,
+          },
+        };
+      });
     } else {
       // Handle top-level fields
       setEditingContact((prev) => ({
