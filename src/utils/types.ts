@@ -21,6 +21,7 @@ export type AboutData = {
   tagline: string;
   bio: string;
   image: string; // Base64 or URL
+  carouselImages: string[]; // Array of image URLs or base64 strings
   experience: {
     title: string;
     company: string;

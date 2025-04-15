@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useAbout } from "@/utils/storage";
+import ImageCarousel from "./ImageCarousel";
 
 export default function About() {
   const { about } = useAbout();
@@ -94,6 +95,29 @@ export default function About() {
             </div>
           </motion.div>
         </div>
+
+        {/* Photo Carousel Section */}
+        {about.carouselImages && about.carouselImages.length > 0 && (
+          <motion.div 
+            className="mt-24"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                Photo Gallery
+              </h3>
+              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+                A glimpse into my journey and experiences
+              </p>
+            </div>
+            <ImageCarousel 
+              images={about.carouselImages} 
+              className="mx-auto max-w-4xl" 
+            />
+          </motion.div>
+        )}
       </div>
     </section>
   );

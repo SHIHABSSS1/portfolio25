@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AboutData } from "@/utils/types";
 import { useAbout } from "@/utils/storage";
 import ImageUploader from "./ImageUploader";
+import { FaTrash, FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 export default function AboutEditor() {
   const { about, updateAbout } = useAbout();
@@ -62,6 +63,42 @@ export default function AboutEditor() {
     }));
   };
 
+  const handleCarouselImageUpload = (base64Image: string) => {
+    setEditingAbout((prev) => ({
+      ...prev,
+      carouselImages: [...prev.carouselImages, base64Image],
+    }));
+  };
+
+  const removeCarouselImage = (index: number) => {
+    setEditingAbout((prev) => ({
+      ...prev,
+      carouselImages: prev.carouselImages.filter((_, i) => i !== index),
+    }));
+  };
+
+  const moveCarouselImage = (index: number, direction: 'up' | 'down') => {
+    if (
+      (direction === 'up' && index === 0) || 
+      (direction === 'down' && index === editingAbout.carouselImages.length - 1)
+    ) {
+      return;
+    }
+
+    setEditingAbout((prev) => {
+      const newImages = [...prev.carouselImages];
+      const newIndex = direction === 'up' ? index - 1 : index + 1;
+      
+      // Swap the images
+      [newImages[index], newImages[newIndex]] = [newImages[newIndex], newImages[index]];
+      
+      return {
+        ...prev,
+        carouselImages: newImages,
+      };
+    });
+  };
+
   const handleSave = () => {
     updateAbout(editingAbout);
     setIsEditing(false);
@@ -83,15 +120,15 @@ export default function AboutEditor() {
             onClick={() => setIsEditing(true)}
             className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-500"
           >
-            Edit About
+            Edit About Info
           </button>
         </div>
 
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Basic Information
+                Personal Information
               </h3>
               <div className="space-y-4 text-gray-700 dark:text-gray-300">
                 <p>
@@ -103,7 +140,7 @@ export default function AboutEditor() {
                 <p>
                   <span className="font-medium">Tagline:</span> {about.tagline}
                 </p>
-                <p className="whitespace-pre-wrap">
+                <p>
                   <span className="font-medium">Bio:</span> {about.bio}
                 </p>
               </div>
@@ -126,6 +163,32 @@ export default function AboutEditor() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              Photo Gallery
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {about.carouselImages && about.carouselImages.length > 0 ? (
+                about.carouselImages.map((image, index) => (
+                  <div 
+                    key={index} 
+                    className="relative h-24 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-700"
+                  >
+                    <img 
+                      src={image} 
+                      alt={`Gallery image ${index + 1}`} 
+                      className="h-full w-full object-cover" 
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-full flex items-center justify-center h-24 rounded-lg bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400">
+                  No gallery images
+                </div>
+              )}
             </div>
           </div>
 
@@ -176,7 +239,7 @@ export default function AboutEditor() {
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div>
@@ -201,7 +264,7 @@ export default function AboutEditor() {
                 htmlFor="title"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
               >
-                Professional Title
+                Title
               </label>
               <input
                 type="text"
@@ -253,6 +316,85 @@ export default function AboutEditor() {
               onImageUpload={handleImageUpload}
               currentImage={editingAbout.image}
             />
+          </div>
+        </div>
+
+        {/* Carousel Images Section */}
+        <div>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+              Photo Gallery
+            </h3>
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                {editingAbout.carouselImages.length} images
+              </span>
+              <div className="w-40">
+                <ImageUploader
+                  onImageUpload={handleCarouselImageUpload}
+                  currentImage=""
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {editingAbout.carouselImages.map((image, index) => (
+              <div
+                key={index}
+                className="relative border border-gray-200 dark:border-gray-700 rounded-lg p-2"
+              >
+                <div className="relative h-40 mb-2 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-700">
+                  <img
+                    src={image}
+                    alt={`Gallery image ${index + 1}`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    Image #{index + 1}
+                  </span>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => moveCarouselImage(index, 'up')}
+                      disabled={index === 0}
+                      className={`text-blue-600 p-1 ${
+                        index === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:text-blue-500'
+                      }`}
+                      aria-label="Move up"
+                    >
+                      <FaArrowUp size={14} />
+                    </button>
+                    <button
+                      onClick={() => moveCarouselImage(index, 'down')}
+                      disabled={index === editingAbout.carouselImages.length - 1}
+                      className={`text-blue-600 p-1 ${
+                        index === editingAbout.carouselImages.length - 1
+                          ? 'opacity-50 cursor-not-allowed'
+                          : 'hover:text-blue-500'
+                      }`}
+                      aria-label="Move down"
+                    >
+                      <FaArrowDown size={14} />
+                    </button>
+                    <button
+                      onClick={() => removeCarouselImage(index)}
+                      className="text-red-600 p-1 hover:text-red-500"
+                      aria-label="Remove image"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {editingAbout.carouselImages.length === 0 && (
+              <div className="col-span-full flex items-center justify-center h-40 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border border-dashed border-gray-300 dark:border-gray-600">
+                No images in the gallery. Use the uploader above to add images.
+              </div>
+            )}
           </div>
         </div>
 

@@ -113,6 +113,11 @@ const defaultAbout: AboutData = {
   tagline: "I'm a passionate engineer with expertise in embedded systems, web development, and digital marketing, creating solutions that deliver real-world impact.",
   bio: "I'm a passionate Electronics Engineer with a diverse background in embedded systems, web development, digital marketing, and IT service. I thrive on learning, building, and leading, with a strong focus on practical innovation and real-world impact.",
   image: "",
+  carouselImages: [
+    "/images/placeholder1.jpg",
+    "/images/placeholder2.jpg",
+    "/images/placeholder3.jpg"
+  ],
   experience: [
     {
       title: "Customer Support",
