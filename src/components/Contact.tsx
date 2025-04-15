@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
+import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
+import { useContactInfo } from "@/utils/storage";
 
 export default function Contact() {
+  const { contactInfo } = useContactInfo();
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -75,10 +78,10 @@ export default function Contact() {
                   </h4>
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     <a 
-                      href="mailto:your.email@example.com" 
+                      href={`mailto:${contactInfo.email}`} 
                       className="hover:text-blue-600 dark:hover:text-blue-400"
                     >
-                      your.email@example.com
+                      {contactInfo.email}
                     </a>
                   </p>
                 </div>
@@ -94,10 +97,31 @@ export default function Contact() {
                   </h4>
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     <a 
-                      href="tel:+1234567890" 
+                      href={`tel:${contactInfo.phone}`} 
                       className="hover:text-blue-600 dark:hover:text-blue-400"
                     >
-                      +123 456 7890
+                      {contactInfo.phone}
+                    </a>
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                  <FaWhatsapp className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-base font-medium text-gray-900 dark:text-white">
+                    WhatsApp
+                  </h4>
+                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    <a 
+                      href={`https://wa.me/${contactInfo.whatsapp.replace(/\+/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-blue-600 dark:hover:text-blue-400"
+                    >
+                      {contactInfo.whatsapp}
                     </a>
                   </p>
                 </div>
@@ -112,7 +136,8 @@ export default function Contact() {
                     Location
                   </h4>
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Bangladesh
+                    <span>Present: {contactInfo.address.present}</span><br/>
+                    <span>Permanent: {contactInfo.address.permanent}</span>
                   </p>
                 </div>
               </div>

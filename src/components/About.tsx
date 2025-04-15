@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { useAbout } from "@/utils/storage";
 
 export default function About() {
+  const { about } = useAbout();
+
   return (
     <section id="about" className="py-24 bg-white dark:bg-gray-900/50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -29,10 +31,17 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="relative h-96 overflow-hidden rounded-2xl shadow-xl">
-              {/* Replace with your actual image */}
-              <div className="h-full w-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
-                MD SHIHAB HOSSAIN
-              </div>
+              {about.image ? (
+                <img
+                  src={about.image}
+                  alt={about.name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="h-full w-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
+                  {about.name}
+                </div>
+              )}
             </div>
           </motion.div>
           
@@ -46,7 +55,7 @@ export default function About() {
                 My Story
               </h3>
               <p>
-                I'm a passionate Electronics Engineer with a diverse background in embedded systems, web development, digital marketing, and IT service. I thrive on learning, building, and leading, with a strong focus on practical innovation and real-world impact.
+                {about.bio}
               </p>
               
               <div>
@@ -54,18 +63,16 @@ export default function About() {
                   Professional Experience
                 </h4>
                 <ul className="mt-4 space-y-4">
-                  <li className="flex gap-x-3">
-                    <div className="flex-none w-1.5 h-1.5 mt-2 rounded-full bg-blue-500" />
-                    <p>Currently working at <span className="font-semibold text-gray-900 dark:text-white">Genex (Grameenphone Digital)</span>, handling live chat and email-based customer support, gaining hands-on experience in communication, customer service, and IT operations.</p>
-                  </li>
-                  <li className="flex gap-x-3">
-                    <div className="flex-none w-1.5 h-1.5 mt-2 rounded-full bg-blue-500" />
-                    <p>Founded <span className="font-semibold text-gray-900 dark:text-white">Mirro Tech</span>, where I led projects involving digital subscription products like Canva and Netflix, sharpening my skills in client handling, digital product delivery, and team coordination.</p>
-                  </li>
-                  <li className="flex gap-x-3">
-                    <div className="flex-none w-1.5 h-1.5 mt-2 rounded-full bg-blue-500" />
-                    <p>Worked as a brand promoter, collaborating with well-known names like <span className="font-semibold text-gray-900 dark:text-white">Samiha Air International</span>, <span className="font-semibold text-gray-900 dark:text-white">Dream Abroad</span>, and an SMM panel.</p>
-                  </li>
+                  {about.experience.map((exp, index) => (
+                    <li key={index} className="flex gap-x-3">
+                      <div className="flex-none w-1.5 h-1.5 mt-2 rounded-full bg-blue-500" />
+                      <p>
+                        <span className="font-semibold text-gray-900 dark:text-white">{exp.title}</span> at{' '}
+                        <span className="font-semibold text-gray-900 dark:text-white">{exp.company}</span>
+                        {exp.description && `, ${exp.description}`}
+                      </p>
+                    </li>
+                  ))}
                 </ul>
               </div>
               

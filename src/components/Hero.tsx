@@ -2,9 +2,13 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
+import { useAbout, useContactInfo } from "@/utils/storage";
 
 export default function Hero() {
+  const { about } = useAbout();
+  const { contactInfo } = useContactInfo();
+
   return (
     <div className="relative isolate min-h-screen flex items-center">
       {/* Background gradient */}
@@ -26,13 +30,13 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl font-bold tracking-tight sm:text-6xl bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-              MD SHIHAB HOSSAIN
+              {about.name}
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-700 dark:text-gray-300">
-              Electronics Engineer & Web Developer
+              {about.title}
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-400">
-              I'm a passionate engineer with expertise in embedded systems, web development, and digital marketing, creating solutions that deliver real-world impact.
+              {about.tagline}
             </p>
           </motion.div>
           
@@ -62,13 +66,16 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+            <a href={contactInfo.socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+              <FaFacebook className="h-6 w-6" />
+            </a>
+            <a href={contactInfo.socialLinks.github} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
               <FaGithub className="h-6 w-6" />
             </a>
-            <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+            <a href={contactInfo.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
               <FaLinkedin className="h-6 w-6" />
             </a>
-            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+            <a href={contactInfo.socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
               <FaTwitter className="h-6 w-6" />
             </a>
           </motion.div>

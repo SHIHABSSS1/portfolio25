@@ -1,41 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-
-// Project data - replace with actual projects
-const projects = [
-  {
-    id: 1,
-    title: "CSV Search Tool",
-    description: "A user-friendly tool for searching through CSV files with clean UI, efficient search logic, and smooth user interaction.",
-    tags: ["React", "Node.js", "CSV Parsing", "UI/UX"],
-    image: "/images/project1.jpg", // Replace with actual image
-    github: "https://github.com/",
-    demo: "https://example.com/",
-  },
-  {
-    id: 2,
-    title: "IoT Home Automation",
-    description: "Smart home system built with ESP8266/ESP32 and Blynk platform for real-time monitoring and control of home appliances.",
-    tags: ["Arduino", "ESP8266", "IoT", "Blynk"],
-    image: "/images/project2.jpg", // Replace with actual image
-    github: "https://github.com/",
-    demo: "https://example.com/",
-  },
-  {
-    id: 3,
-    title: "Digital Subscription Platform",
-    description: "Subscription management system for digital products like Canva and Netflix, including user management and payment processing.",
-    tags: ["Web Development", "E-commerce", "Payment Gateway"],
-    image: "/images/project3.jpg", // Replace with actual image
-    github: "https://github.com/",
-    demo: "https://example.com/",
-  },
-];
+import { useProjects } from "@/utils/storage";
 
 export default function Projects() {
+  const { projects } = useProjects();
+
   return (
     <section id="projects" className="py-24 bg-gray-50 dark:bg-gray-800/50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -63,10 +34,25 @@ export default function Projects() {
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
               <div className="relative h-48 overflow-hidden bg-gray-200 dark:bg-gray-700">
-                {/* Replace with actual images */}
-                <div className="h-full w-full bg-gradient-to-br from-blue-500/70 to-purple-600/70 flex items-center justify-center text-white text-xl font-bold">
-                  {project.title}
-                </div>
+                {/* Display project image if available, otherwise show a gradient background */}
+                {project.image && project.image.startsWith('/') ? (
+                  <div className="h-full w-full bg-gradient-to-br from-blue-500/70 to-purple-600/70 flex items-center justify-center text-white text-xl font-bold">
+                    {project.title}
+                  </div>
+                ) : project.image ? (
+                  <div 
+                    className="h-full w-full bg-cover bg-center" 
+                    style={{ backgroundImage: `url(${project.image})` }}
+                  >
+                    <div className="h-full w-full bg-black/30 flex items-center justify-center text-white text-xl font-bold">
+                      {project.title}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-full w-full bg-gradient-to-br from-blue-500/70 to-purple-600/70 flex items-center justify-center text-white text-xl font-bold">
+                    {project.title}
+                  </div>
+                )}
               </div>
               <div className="flex flex-1 flex-col justify-between p-6">
                 <div className="flex-1">
@@ -88,24 +74,28 @@ export default function Projects() {
                   </p>
                 </div>
                 <div className="mt-6 flex items-center gap-4">
-                  <a 
-                    href={project.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
-                    aria-label={`GitHub repository for ${project.title}`}
-                  >
-                    <FaGithub className="h-6 w-6" />
-                  </a>
-                  <a 
-                    href={project.demo} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
-                    aria-label={`Live demo for ${project.title}`}
-                  >
-                    <FaExternalLinkAlt className="h-5 w-5" />
-                  </a>
+                  {project.github && (
+                    <a 
+                      href={project.github} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+                      aria-label={`GitHub repository for ${project.title}`}
+                    >
+                      <FaGithub className="h-6 w-6" />
+                    </a>
+                  )}
+                  {project.demo && (
+                    <a 
+                      href={project.demo} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+                      aria-label={`Live demo for ${project.title}`}
+                    >
+                      <FaExternalLinkAlt className="h-5 w-5" />
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
