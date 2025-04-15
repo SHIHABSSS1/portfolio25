@@ -76,7 +76,13 @@ export default function About() {
                   <FiCalendar className="text-blue-600 dark:text-blue-400 mr-2" />
                   <h4 className="text-sm font-medium text-gray-900 dark:text-white">Experience</h4>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300">{about.experience || 0} years</p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  {typeof about.experience === 'number' 
+                    ? `${about.experience} years` 
+                    : Array.isArray(about.experience) 
+                      ? `${about.experience.length} roles`
+                      : 'Experience details available'}
+                </p>
               </div>
               
               <div className="bg-white dark:bg-gray-700 p-4 rounded-xl shadow-md">
@@ -102,6 +108,23 @@ export default function About() {
                 {about.bio || 'Biography information not available.'}
               </p>
             </div>
+            
+            {Array.isArray(about.experience) && about.experience.length > 0 && (
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Professional Experience</h3>
+                <div className="space-y-4">
+                  {about.experience.map((exp, index) => (
+                    <div key={index} className="pb-4 border-b border-gray-200 dark:border-gray-600 last:border-0 last:pb-0">
+                      <h4 className="font-medium text-gray-900 dark:text-white">{exp.title}</h4>
+                      <p className="text-blue-600 dark:text-blue-400 text-sm mb-1">{exp.company}</p>
+                      {exp.description && (
+                        <p className="text-gray-600 dark:text-gray-300 text-sm">{exp.description}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white dark:bg-gray-700 p-5 rounded-xl shadow-md flex items-start">
