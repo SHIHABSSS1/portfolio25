@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -29,15 +30,20 @@ export default function Header() {
             Portfolio
           </Link>
         </motion.div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-200"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
+        <div className="flex items-center">
+          <div className="mr-4">
+            <ThemeSwitcher />
+          </div>
+          <div className="lg:hidden">
+            <button
+              type="button"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-200"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <span className="sr-only">Open main menu</span>
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
         </div>
         <div className="hidden lg:flex lg:gap-x-8">
           {navItems.map((item, index) => (
@@ -67,14 +73,17 @@ export default function Header() {
                 <Link href="/" className="font-bold text-xl tracking-tight">
                   Portfolio
                 </Link>
-                <button
-                  type="button"
-                  className="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-200"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span className="sr-only">Close menu</span>
-                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                <div className="flex items-center gap-4">
+                  <ThemeSwitcher />
+                  <button
+                    type="button"
+                    className="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-200"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="sr-only">Close menu</span>
+                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </div>
               </div>
               <div className="mt-6 flow-root px-6">
                 <div className="space-y-2 py-6">

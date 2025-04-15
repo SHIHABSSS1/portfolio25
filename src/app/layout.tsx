@@ -24,12 +24,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f8f9fa] dark:bg-[#0f172a] text-gray-900 dark:text-white`}
       >
         {children}
         <LastUpdateModal />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function getThemePreference() {
+                  if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+                    return localStorage.getItem('theme');
+                  }
+                  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                
+                const theme = getThemePreference();
+                if (theme === 'light') {
+                  document.documentElement.classList.remove('dark');
+                } else {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
       </body>
     </html>
   );
