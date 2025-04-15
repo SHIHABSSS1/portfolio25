@@ -126,7 +126,7 @@ export default function About() {
               <div className="bg-white dark:bg-gray-700 p-5 rounded-xl shadow-md">
                 <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Interests</h4>
                 <div className="flex flex-wrap gap-2">
-                  {about.interests.map((interest, index) => (
+                  {about.interests && about.interests.map((interest, index) => (
                     <span 
                       key={index}
                       className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm"
