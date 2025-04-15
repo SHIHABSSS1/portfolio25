@@ -114,9 +114,11 @@ const defaultAbout: AboutData = {
   bio: "I'm a passionate Electronics Engineer with a diverse background in embedded systems, web development, digital marketing, and IT service. I thrive on learning, building, and leading, with a strong focus on practical innovation and real-world impact.",
   image: "",
   carouselImages: [
-    "/images/placeholder1.jpg",
-    "/images/placeholder2.jpg",
-    "/images/placeholder3.jpg"
+    "https://source.unsplash.com/random/1200x800?tech",
+    "https://source.unsplash.com/random/1200x800?coding",
+    "https://source.unsplash.com/random/1200x800?electronics",
+    "https://source.unsplash.com/random/1200x800?web",
+    "https://source.unsplash.com/random/1200x800?engineering"
   ],
   experience: [
     {
