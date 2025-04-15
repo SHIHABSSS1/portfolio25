@@ -26,21 +26,41 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
-        {/* Force dark mode before any rendering happens */}
+        {/* More aggressive theme application script */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                // Set to dark mode by default
+                // First, force dark mode
                 document.documentElement.classList.add('dark');
                 
-                // Only check for light mode if explicitly set
+                // Check localStorage only for explicit light preference
                 if (localStorage.getItem('theme') === 'light') {
                   document.documentElement.classList.remove('dark');
                 } else {
+                  // If no preference or dark preference, force dark mode
                   localStorage.setItem('theme', 'dark');
+                  document.documentElement.classList.add('dark');
                 }
-              } catch (e) {}
+                
+                // Add window-level helper for debugging
+                window.toggleTheme = function() {
+                  const isDark = document.documentElement.classList.contains('dark');
+                  console.log('Manual theme toggle, current dark mode:', isDark);
+                  
+                  if (isDark) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    console.log('→ Switched to light mode');
+                  } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    console.log('→ Switched to dark mode');
+                  }
+                }
+              } catch (e) {
+                console.error('Theme initialization error:', e);
+              }
             `
           }}
         />
