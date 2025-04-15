@@ -158,6 +158,7 @@ const PROJECTS_KEY = 'portfolioProjects';
 const SKILLS_KEY = 'portfolioSkills';
 const ABOUT_KEY = 'portfolioAbout';
 const CONTACT_KEY = 'portfolioContact';
+const LAST_UPDATED_KEY = 'portfolioLastUpdated';
 
 // Helper to get icon component from string
 export const getIconComponent = (iconName: string) => {
@@ -173,10 +174,34 @@ export const getIconComponent = (iconName: string) => {
   return icons[iconName] || FaCode;
 };
 
+// Get and update the last updated timestamp
+export function useLastUpdated() {
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(LAST_UPDATED_KEY);
+      if (saved) {
+        setLastUpdated(saved);
+      }
+    }
+  }, []);
+  
+  const updateTimestamp = () => {
+    const timestamp = new Date().toISOString();
+    setLastUpdated(timestamp);
+    localStorage.setItem(LAST_UPDATED_KEY, timestamp);
+    return timestamp;
+  };
+  
+  return { lastUpdated, updateTimestamp };
+}
+
 // Storage hooks
 
 export function useProjects() {
   const [projects, setProjects] = useState<Project[]>(defaultProjects);
+  const { updateTimestamp } = useLastUpdated();
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -192,6 +217,7 @@ export function useProjects() {
   const updateProjects = (newProjects: Project[]) => {
     setProjects(newProjects);
     localStorage.setItem(PROJECTS_KEY, JSON.stringify(newProjects));
+    updateTimestamp();
   };
   
   return { projects, updateProjects };
@@ -199,6 +225,7 @@ export function useProjects() {
 
 export function useSkills() {
   const [skills, setSkills] = useState<Skill[]>(defaultSkills);
+  const { updateTimestamp } = useLastUpdated();
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -214,6 +241,7 @@ export function useSkills() {
   const updateSkills = (newSkills: Skill[]) => {
     setSkills(newSkills);
     localStorage.setItem(SKILLS_KEY, JSON.stringify(newSkills));
+    updateTimestamp();
   };
   
   return { skills, updateSkills };
@@ -221,6 +249,7 @@ export function useSkills() {
 
 export function useAbout() {
   const [about, setAbout] = useState<AboutData>(defaultAbout);
+  const { updateTimestamp } = useLastUpdated();
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -236,6 +265,7 @@ export function useAbout() {
   const updateAbout = (newAbout: AboutData) => {
     setAbout(newAbout);
     localStorage.setItem(ABOUT_KEY, JSON.stringify(newAbout));
+    updateTimestamp();
   };
   
   return { about, updateAbout };
@@ -243,6 +273,7 @@ export function useAbout() {
 
 export function useContactInfo() {
   const [contactInfo, setContactInfo] = useState<ContactInfo>(defaultContactInfo);
+  const { updateTimestamp } = useLastUpdated();
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -258,6 +289,7 @@ export function useContactInfo() {
   const updateContactInfo = (newContactInfo: ContactInfo) => {
     setContactInfo(newContactInfo);
     localStorage.setItem(CONTACT_KEY, JSON.stringify(newContactInfo));
+    updateTimestamp();
   };
   
   return { contactInfo, updateContactInfo };

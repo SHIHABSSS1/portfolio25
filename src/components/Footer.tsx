@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaFacebook } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaFacebook, FaInfoCircle } from "react-icons/fa";
 import { useContactInfo, useAbout } from "@/utils/storage";
 
 export default function Footer() {
@@ -61,9 +61,16 @@ export default function Footer() {
             <p className="text-center text-xs leading-5 text-gray-400">
               Built with Next.js and Tailwind CSS
             </p>
-            <p className="text-center text-xs leading-5 text-gray-400 mt-1">
-              <Link href="/admin" className="hover:underline">Admin</Link>
-            </p>
+            <div className="flex items-center justify-center mt-1 space-x-3">
+              <Link href="/admin" className="text-xs text-gray-400 hover:underline">
+                Admin
+              </Link>
+              <span className="text-gray-600">•</span>
+              <div className="flex items-center text-xs text-gray-400 hover:text-gray-300">
+                <FaInfoCircle className="mr-1 text-gray-500" />
+                <span>Press Shift+A for last update</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
