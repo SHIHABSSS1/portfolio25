@@ -26,6 +26,16 @@ export default function Skills() {
     }
   };
 
+  // Define fixed progress values for each skill to prevent hydration errors
+  const skillProgress = {
+    1: "95%",  // Web Development
+    2: "85%",  // Backend & Database
+    3: "90%",  // Hardware & IoT
+    4: "80%",  // UI/UX Design
+    5: "75%",  // Digital Marketing
+    6: "82%"   // Mobile Development
+  };
+
   return (
     <section id="skills" className="py-24 bg-white dark:bg-gray-900 overflow-hidden">
       <div className="container mx-auto px-6 lg:px-8 relative">
@@ -85,7 +95,7 @@ export default function Skills() {
                   <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
                     <div 
                       className="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" 
-                      style={{ width: `${Math.floor(70 + Math.random() * 30)}%` }}
+                      style={{ width: skillProgress[skill.id] || "80%" }}
                     ></div>
                   </div>
                 </div>
